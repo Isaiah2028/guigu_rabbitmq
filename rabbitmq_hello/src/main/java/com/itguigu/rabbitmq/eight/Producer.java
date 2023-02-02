@@ -16,7 +16,6 @@ public class Producer {
     public static final String NORMAL_EXCHANGE = "normal_exchange";
     private static final String NORMAL_ROUTING_KEY = "normal";
 
-
     public static void main(String[] args) throws Exception {
 
         Channel channel = RabbitMqUtils.getChannel();
@@ -24,7 +23,7 @@ public class Producer {
         /*AMQP.BasicProperties properties = null;
         properties = new AMQP.BasicProperties().builder().expiration("10000").build();*/
 
-        for (int i = 0; i < 11; i++) {
+        for (int i = 1; i < 11; i++) {
             String message = "info" + i;
             //channel.basicPublish(NORMAL_EXCHANGE, NORMAL_ROUTING_KEY, properties, message.getBytes());
             channel.basicPublish(NORMAL_EXCHANGE, NORMAL_ROUTING_KEY, null, message.getBytes());

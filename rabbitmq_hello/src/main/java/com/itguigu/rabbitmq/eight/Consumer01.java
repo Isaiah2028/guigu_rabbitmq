@@ -58,7 +58,7 @@ public class Consumer01 {
         arguments.put("x-dead-letter-routing-key", ROUTING_KEY);
 
         //设置正常队列的长度限制
-            arguments.put("x-max-length", 6);
+        //arguments.put("x-max-length", 6);
 
 
         //声明正常队列
@@ -69,10 +69,21 @@ public class Consumer01 {
         System.out.println("Consumer01等待接收消息.....");
 
         DeliverCallback deliverCallback = (consumerTag, message) -> {
-            System.out.println("Consumer01正常队列监听到消息：" + new String(message.getBody(), StandardCharsets.UTF_8));
-            channel.basicAck(message.getEnvelope().getDeliveryTag(),false);
+
+            //System.out.println("Consumer01正常队列监听到消息：" + new String(message.getBody(), StandardCharsets.UTF_8));
+            String msg = new String(message.getBody(), StandardCharsets.UTF_8);
+            if (msg.equals("info5")) {
+                System.out.println("Consumer01接收到消息：" + msg + " 此消息是被c1拒绝的消息....");
+                 channel.basicReject(message.getEnvelope().getDeliveryTag(),false);
+            } else {
+                System.out.println("Consumer01接收到消息：" + msg);
+                channel.basicAck(message.getEnvelope().getDeliveryTag(), false);
+            }
         };
-        channel.basicConsume(NORMAL_QUEUE, true, deliverCallback, (consumerTag) -> {
+
+        //开启手动应答：
+        boolean autoAcked = false;
+        channel.basicConsume(NORMAL_QUEUE, autoAcked, deliverCallback, (consumerTag) -> {
         });
     }
 
