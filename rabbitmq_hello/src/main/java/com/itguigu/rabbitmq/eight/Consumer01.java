@@ -53,9 +53,13 @@ public class Consumer01 {
 
         //正常队列绑定死信队列信息
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("x-message-ttl", 10000);
+        //arguments.put("x-message-ttl", 10000);
         arguments.put("x-dead-letter-exchange", DEAD_EXCHANGE);
         arguments.put("x-dead-letter-routing-key", ROUTING_KEY);
+
+        //设置正常队列的长度限制
+            arguments.put("x-max-length", 6);
+
 
         //声明正常队列
         channel.queueDeclare(NORMAL_QUEUE, true, false, false, arguments);
