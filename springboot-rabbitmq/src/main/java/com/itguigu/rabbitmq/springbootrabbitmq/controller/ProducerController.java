@@ -25,13 +25,19 @@ public class ProducerController {
     @GetMapping("/sendMessage/{message}")
     public void sendMessage(@PathVariable String message) {
 
+        //可以路由消息
         CorrelationData correlationData = new CorrelationData("1");
-
-
         rabbitTemplate.convertAndSend(ConfirmConfig.CONFIRM_EXCHANGE_NAME,
                 ConfirmConfig.CONFIRM_ROUTING_KEY,
-                message, correlationData);
-        log.info("发送消息内容:{}", message);
+                message + "key1", correlationData);
+        log.info("发送消息内容:{}", message + "key1");
+
+        // 不可以路由消息
+        CorrelationData correlationData2 = new CorrelationData("2");
+        rabbitTemplate.convertAndSend(ConfirmConfig.CONFIRM_EXCHANGE_NAME,
+                ConfirmConfig.CONFIRM_ROUTING_KEY + "2",
+                message + "12", correlationData2);
+        log.info("发送消息内容:{}", message + "key12");
 
 
     }
