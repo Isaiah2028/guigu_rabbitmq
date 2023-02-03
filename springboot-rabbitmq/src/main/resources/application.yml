@@ -5,6 +5,9 @@ spring:
     username: admin
     password: 123
     virtual-host: /
+    publisher-confirm-type: correlated #发布确认模式
+    publisher-returns: true #回退消息
+
 
 server:
   port: 8080
