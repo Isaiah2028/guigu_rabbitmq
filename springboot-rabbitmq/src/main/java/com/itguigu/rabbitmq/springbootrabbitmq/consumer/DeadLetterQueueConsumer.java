@@ -17,7 +17,6 @@ import java.util.Date;
 @Slf4j
 @Component
 public class DeadLetterQueueConsumer {
-
     @RabbitListener(queues = "QD")
     public void receiveD(Message message, Channel channel) {
         String msg = new String(message.getBody(), StandardCharsets.UTF_8);
